@@ -1,0 +1,162 @@
+gameName: BotNet
+
+# Variables the server needs to send the client each game
+globals:
+    turnNumber:
+        type: int
+        doc: How many turns it has been since the beginning of the game
+    playerID:
+        type: int
+        doc: Player Number; either 0 or 1 (0 is player 1 1 is player 2))
+    gameNumber:
+        type: int
+        doc: What number game this is for the server)
+    baseCost:
+        type: int
+        doc: BaseCost used in the virus price formula)
+    scaleCost:
+        type: float
+        doc: Scalar used in the virus price formula)
+    width:
+        type: int
+        doc: The width of the map (max X value))
+    height:
+        type: int
+        doc: The height of the map (max Y value))
+
+models:
+    Player:
+        data:
+            player_name:
+                type: str
+                doc: Player's name
+            byte_dollars:
+                type: int
+                doc: Player's points, one with more at end of game wins
+            cycles:
+                type: int
+                doc: Player's machine cycles, used to create new Viruses
+            time:
+                type: int
+                doc: The amount of time this player has before timing out
+        doc: Stores information about a player in the game
+        functions:
+            talk:
+                arguments:
+                    message:
+                        type: str
+                        doc: The message that the player should say
+                doc: Allows a player to display a message to the screen
+
+    Mappable:
+        data:
+            x:
+                type: int
+                doc: The x coordinate
+            y:
+                type: int
+                doc: The y coordinate
+        doc: The base object for all mappable things
+        type: virtual
+
+    ##A virus is the dominant unit of the game. Can move left and right. Has a level, player_id and cost(?) variable.
+    Virus:
+        parent: Mappable
+        data:
+            owner:
+                type: int
+                doc: The owner of this Virus
+            level:
+                type: int
+                doc: The Virus's level
+            moves_left:
+                type: int
+                doc: The number of times this virus can still move this turn
+            living:
+                type: int
+                doc: This virus is alive if the function returns a 1
+        doc: Stores the information about a virus
+        functions:
+            move:
+                arguments:
+                    x:
+                        type: int
+                        doc: The x coordinate to move to
+                    y:
+                        type: int
+                        doc: The y coordinate to move to
+        plural: Viruses
+
+    Base:
+        parent: Mappable
+        data:
+            owner:
+                type: int
+                doc: The owner of this base
+            spawns_left:
+                type: int
+                doc: The number of viruses this base can still spawn this turn
+        doc: The information on the base
+        functions:
+            spawn:
+                arguments:
+                    level:
+                        type: int
+                        doc: Creates a Virus on the base with certain level.
+
+    Tile:
+        parent: Mappable
+        data:
+            owner:
+                type: int
+                doc: Who owns this tyle
+#
+## Defines an Animation, which is sent to the visualizer to let it know something happened
+#playerTalk = Animation("PlayerTalk",
+#  data = [
+#    Variable("speaker", Player),
+#    Variable("message", str),
+#    ]
+#  )
+#
+#combine = Animation("Combine",
+#  data = [
+#    Variable("moving", Virus),
+#    Variable("stationary", Virus),
+#    ]
+#  )
+#
+#combat = Animation("Combat",
+#  data = [
+#    Variable("moving", Virus),
+#    Variable("stationary", Virus),
+#    ]
+#  )
+#
+#move = Animation("Move",
+#  data = [
+#    Variable("moving", Virus),
+#    Variable("dx", int),
+#    Variable("dy", int)
+#    ]
+#  )
+#
+#crash = Animation("Crash",
+#  data = [
+#    Variable("crashing", Virus),
+#    Variable("dx", int),
+#    Variable("dy", int)
+#    ]
+#  )
+#
+#create = Animation("Create",
+#  data = [
+#    Variable("creating", Virus)
+#    ]
+#  )
+#suicide = Animation("Recycle",
+#  data = [
+#    Variable("recycling", Virus),
+#    Variable("base", Base),
+#    ]
+#  )
