@@ -7,22 +7,22 @@ globals:
         doc: How many turns it has been since the beginning of the game
     playerID:
         type: int
-        doc: Player Number; either 0 or 1 (0 is player 1 1 is player 2))
+        doc: Player Number; either 0 or 1 (0 is player 1 1 is player 2)
     gameNumber:
         type: int
-        doc: What number game this is for the server)
+        doc: What number game this is for the server
     baseCost:
         type: int
-        doc: BaseCost used in the virus price formula)
+        doc: BaseCost used in the virus price formula
     scaleCost:
         type: float
-        doc: Scalar used in the virus price formula)
+        doc: Scalar used in the virus price formula
     width:
         type: int
-        doc: The width of the map (max X value))
+        doc: The width of the map (max X value)
     height:
         type: int
-        doc: The height of the map (max Y value))
+        doc: The height of the map (max Y value)
 
 models:
     Player:
@@ -102,14 +102,14 @@ models:
                 arguments:
                     level:
                         type: int
-                        doc: Creates a Virus on the base with certain level.
+                    doc: Creates a Virus on the base with certain level.
 
     Tile:
         parent: Mappable
         data:
             owner:
                 type: int
-                doc: Who owns this tyle
+                doc: Who owns this tile
 #
 ## Defines an Animation, which is sent to the visualizer to let it know something happened
 #playerTalk = Animation("PlayerTalk",
