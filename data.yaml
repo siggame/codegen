@@ -1,20 +1,20 @@
-gameName: BotNet
+game_name: BotNet
 
 # Variables the server needs to send the client each game
 globals:
-    turnNumber:
+    turn_number:
         type: int
         doc: How many turns it has been since the beginning of the game
-    playerID:
+    player_id:
         type: int
         doc: Player Number; either 0 or 1 (0 is player 1 1 is player 2)
-    gameNumber:
+    game_number:
         type: int
         doc: What number game this is for the server
-    baseCost:
+    base_cost:
         type: int
         doc: BaseCost used in the virus price formula
-    scaleCost:
+    scale_cost:
         type: float
         doc: Scalar used in the virus price formula
     width:
