@@ -19,7 +19,7 @@ class GameData(object):
         self.globals = [self.parse_var(i) for i in globals.items()]
 
     def parse_models(self, models):
-        parents = {name: value.get('parent', None) for name, value in models.items()}
+        parents = {i: j.get('parent', None) for i, j in models.items()}
         while parents:
             eligible = [i for i in parents if parents[i] not in parents]
             if not eligible:
@@ -35,6 +35,16 @@ class GameData(object):
 
         return structures.Variable(name, type, doc)
 
+    def parse_func(self, func):
+        name, data = func
+        doc = data.get('doc', '')
+        arguments = data.get('arguments', {})
+
+        arguments = [self.parse_var(i) for i in arguments.items()]
+
+        return structures.Function(name, arguments, doc)
+
+
     def parse_model(self, name, model):
         data = model.get('data', {})
         doc = model.get('doc', '')
@@ -43,6 +53,7 @@ class GameData(object):
         parent = model.get('parent', None)
 
         data = [self.parse_var(i) for i in data.items()]
+        functions = [self.parse_func(i) for i in functions.items()]
 
         return structures.Model(name, data=data, doc=doc, type=type,
                 parent=parent)
@@ -51,9 +62,8 @@ class GameData(object):
 def load(location = 'data.yaml'):
     f = open(location, 'r')
     data = yaml.load(f, Loader)
-    print data
 
-    GameData(data)
+    return GameData(data)
 
 if __name__ == '__main__':
     load()

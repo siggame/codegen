@@ -44,15 +44,6 @@ class Model(object):
 
     models[name] = self
 
-  def addData(self, data):
-    self.data.extend(data)
-
-  def addFunctions(self, functions):
-    self.functions.extend(functions)
-
-  def addProperties(self, properties):
-    self.properties.extend(properties)
-
 class Variable(object):
   name = ''
   type = None
@@ -81,8 +72,7 @@ class Function(object):
   result = None
   doc = ''
 
-  def __init__(self, name, arguments=[], result=None, doc=''):
+  def __init__(self, name, arguments=[], doc=''):
     self.name = name
     self.arguments = arguments
-    self.result = result
     self.doc = doc
