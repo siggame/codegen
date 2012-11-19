@@ -9,6 +9,7 @@ class GameData(object):
     def __init__(self, data):
         self.models = []
         self.globals = []
+        self.name = data.get('game_name', 'The nameless one.')
 
         if 'globals' in data:
             self.parse_globals(data['globals'])
