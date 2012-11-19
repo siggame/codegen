@@ -102,7 +102,7 @@ models:
                 arguments:
                     level:
                         type: int
-                    doc: Creates a Virus on the base with certain level.
+                doc: Creates a Virus on the base with certain level.
 
     Tile:
         parent: Mappable
