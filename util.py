@@ -9,16 +9,6 @@ def lowercase(str):
     return str
   return str[0].lower() + str[1:]
 
-def dashify(str):
-  if not str:
-    return str
-  result = str[0].lower()
-  for i in str[1:]:
-    if i == i.upper():
-      result += '-'
-    result += i.lower()
-  return result
-
 def depends(model):
   depends = set()
   for variable in model.data:
@@ -31,3 +21,17 @@ def depends(model):
       if variable.type not in [int, str, float, bool, chr, None]:
         depends.add(variable.type)
   return depends
+
+def make_rerunner(data):
+    def rerun_for(name, values):
+        if name in data:
+            return
+        message = 'File must be run iterating %s over %s' % (name, values)
+        raise RecurException(name, values, message)
+    return rerun_for
+
+class RecurException(Exception):
+    def __init__(self, name, values, message):
+        Exception.__init__(self, message)
+        self.name = name
+        self.values = values

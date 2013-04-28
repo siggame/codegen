@@ -5,7 +5,6 @@ import util
 import os.path, os
 from copy import deepcopy
 import runpy
-import builtins
 
 def write(source, dest, data):
     data = deepcopy(data)
@@ -41,11 +40,24 @@ def write_directory(source, dest, data):
 
 def write_file(source, dest, data, path):
     data = deepcopy(data)
+    data['rerun_for'] = util.make_rerunner(data)
     full_path = os.path.join(source, path)
 
     #compile and save the template
     template = Template(filename=full_path)
-    result = template.render(**data)
+    try:
+        result = template.render(**data)
+    #this is a bit fancy:
+    #we have a special exception saying to rerun the file iterating over values
+    #this way, you can say in-file to rerun it on each model for example
+    except util.RecurException as err:
+        for v in err.values:
+            #so we iterate over the values and set the name
+            data[err.name] = v
+            #and try again
+            write_file(source, dest, data, path)
+        #and the recurred write should have done the work, so we stop now
+        return
     
     #calculate the destination path
     template = Template(path)
