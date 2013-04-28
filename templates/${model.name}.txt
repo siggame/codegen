@@ -1,0 +1,4 @@
+<%
+    rerun_for('model', models)
+%>
+${model.name}
