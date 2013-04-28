@@ -35,6 +35,9 @@ def write_directory(source, dest, data):
         full_path = os.path.join(source, path)
         if os.path.isfile(full_path):
             write_file(source, dest, data, path)
+        elif os.path.isdir(full_path):
+            full_dest = os.path.join(dest, path)
+            write_directory(full_path, full_dest, data)
 
 def write_file(source, dest, data, path):
     data = deepcopy(data)
