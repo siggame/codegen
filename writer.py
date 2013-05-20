@@ -35,7 +35,9 @@ def write_directory(source, dest, data):
         if os.path.isfile(full_path):
             write_file(source, dest, data, path)
         elif os.path.isdir(full_path):
-            full_dest = os.path.join(dest, path)
+            template = Template(path)
+            leaf = template.render(**data)
+            full_dest = os.path.join(dest, leaf)
             write_directory(full_path, full_dest, data)
 
 def write_file(source, dest, data, path):
