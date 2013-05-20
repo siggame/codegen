@@ -1,4 +1,4 @@
-game_name: BotNet
+game_name: botnet
 
 # Variables the server needs to send the client each game
 globals:
