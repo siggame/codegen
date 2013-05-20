@@ -11,6 +11,8 @@ def write(source, dest, data):
     data['Model'] = structures.Model
     data['capitalize'] = util.capitalize
     data['lowercase'] = util.lowercase
+    source = os.path.abspath(source)
+    dest = os.path.abspath(dest)
     write_directory(source, dest, data)
 
 def write_directory(source, dest, data):
