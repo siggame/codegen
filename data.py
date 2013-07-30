@@ -52,12 +52,13 @@ class GameData(object):
         type = model.get('type', 'Model')
         functions = model.get('functions', {})
         parent = model.get('parent', None)
+        plural = model.get('plural', name+'s')
 
         data = [self.parse_var(i) for i in data.items()]
         functions = [self.parse_func(i) for i in functions.items()]
 
         return structures.Model(name, data=data, doc=doc, type=type,
-                parent=parent)
+                functions=functions, plural=plural, parent=parent)
 
 
 def load(location = 'data.yaml'):

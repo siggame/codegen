@@ -2,3 +2,7 @@
     rerun_for('model', models)
 %>
 ${model.name}
+
+% for f in model.functions:
+${f.name}
+% endfor
