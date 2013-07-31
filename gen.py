@@ -23,7 +23,7 @@ def parse_data(data):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run The Codegen To Automatically Generate Some Codez')
-    parser.add_argument('-d', '--data', dest='data_path', default='./data.yaml', help='The path to data.yabl')
+    parser.add_argument('-d', '--data', dest='data_path', default='./data.yaml', help='The path to data.yaml')
     parser.add_argument('-o', '--output', dest='out_path', default='./output', help='The output of the codegen.')
     parser.add_argument('-t', '--template', dest='template_path', default='./templates', help='The location of the templates')
 
