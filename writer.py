@@ -1,10 +1,11 @@
 from mako.template import Template
 
+from copy import deepcopy
+import os.path, os
+import runpy
+import shutil
 import structures
 import util
-import os.path, os
-from copy import deepcopy
-import runpy
 
 def write(source, dest, data):
     data = deepcopy(data)
@@ -72,3 +73,4 @@ def write_file(source, dest, data, path):
     output = open(outpath, 'w')
     output.write(result)
     output.close()
+    shutil.copymode(full_path, outpath)
