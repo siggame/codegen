@@ -27,7 +27,7 @@ globals:
 models:
     Player:
         data:
-            player_name:
+            name:
                 type: str
                 doc: Player's name
             byte_dollars:
