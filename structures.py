@@ -1,6 +1,5 @@
 # -*- coding: iso-8859-1 -*-
 from copy import copy
-#from odict import OrderedDict
 
 models = {}
 
