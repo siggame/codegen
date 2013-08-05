@@ -2,10 +2,7 @@ import yaml
 import structures
 from collections import OrderedDict
 
-try:
-    from yaml import CLoader as Loader
-except ImportError:
-    from yaml import Loader
+from yaml import Loader
 
 #We need this to retain the order of named items
 #Otherwise variable and function orders would be lost
