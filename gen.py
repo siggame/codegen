@@ -13,11 +13,12 @@ def insert_model(list, model):
 def parse_data(data):
     globals = data.globals
     name = data.name
+    version = data.version
     models = []
     for i in data.models:
         insert_model(models, i)
 
-    return {'models':models, 'globals':globals, 'name':name}
+    return {'models':models, 'globals':globals, 'name':name, 'version': version}
 
 
 

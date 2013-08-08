@@ -45,6 +45,7 @@ class GameData(object):
         self.models = []
         self.globals = []
         self.name = data.get('game_name', 'The nameless one.')
+        self.version = data.get('game_version', 1)
 
         if 'globals' in data:
             self.parse_globals(data['globals'])
