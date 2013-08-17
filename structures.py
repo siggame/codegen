@@ -48,9 +48,11 @@ class Variable(object):
     type = None
     doc = ''
 
-    def __init__(self, name, type, doc=''):
+    def __init__(self, name, type = None, through = None, to = None, doc=''):
         self.name = name
         self.type = type
+        self.through = through
+        self.to = to
         self.doc = doc
 
 class Animation(object):

@@ -69,10 +69,12 @@ class GameData(object):
 
     def parse_var(self, var):
         name, data = var
-        type = data['type']
+        type = data.get('type', None)
+        through = data.get('through', None)
+        to = data.get('to', through)
         doc = data.get('doc', '')
 
-        return structures.Variable(name, type, doc)
+        return structures.Variable(name, type, through, to, doc)
 
     def parse_func(self, func):
         name, data = func
@@ -98,15 +100,18 @@ class GameData(object):
         return structures.Model(name, data=data, doc=doc, type=type,
                 functions=functions, plural=plural, parent=parent)
     
-    def variables(self):
-        for i in self.globals:
-            yield i
+    def variables(self, globs=True, data=True, args=True):
+        if globs:
+            for i in self.globals:
+                yield i
         for i in self.models:
-            for j in i.data:
-                yield j
-            for j in i.functions:
-                for k in j.arguments:
-                    yield k
+            if data:
+                for j in i.data:
+                    yield j
+            if args:
+                for j in i.functions:
+                    for k in j.arguments:
+                        yield k
     
     def map_types(self):
         for var in self.variables():
@@ -125,7 +130,24 @@ class GameData(object):
                 if not model:
                     raise ValueError('{} is not a known type'.format(var.type))
                 var.type = model[0]
-
+    
+    def connect_var(self, model, var, depth = 0):
+        if depth > 10:
+            print('Max relation following exceeded for {} on {}').format(
+                model.name, var.name)
+        if var.type:
+            return
+        if not var.through:
+            return
+        medium = [i for i in model.data if i.name == var.through]
+        other = medium.type
+        remote = [i for i in other if i.name == var.to]
+        self.connect_var(other, remote, depth+1)
+        var.type = remote.type
+    
+    def connect_vars(self):
+        for var in self.variables(globs=False, args=False):
+            self.connect_var(var)
 
 def load(location = 'data.yaml'):
     f = open(location, 'r')
