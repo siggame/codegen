@@ -43,6 +43,22 @@ class Model(object):
 
         models[name] = self
 
+    @property
+    def locals(self):
+        return [i for i in self.data
+                if not i.through
+                and not isinstance(i.type, Model)]
+
+    @property
+    def remotes(self):
+        return [i for i in self.data if i.through]
+
+    @property
+    def relations(self):
+        return [i for i in self.data
+                if not i.through
+                and isinstance(i.type, Model)]
+
 class Variable(object):
     name = ''
     type = None
