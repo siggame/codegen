@@ -13,7 +13,7 @@ class Model(object):
     type = ''
     parent = None
     def __init__(self, name, **kwargs):
-        self.data = [ Variable('id', int, 'Unique Identifier') ]
+        self.data = [ Variable('id', int, None, None, 'Unique Identifier') ]
         self.functions = []
         self.properties = []
         self.name = name
