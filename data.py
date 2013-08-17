@@ -52,6 +52,8 @@ class GameData(object):
         if 'models' in data:
             self.parse_models(data['models'])
 
+        self.map_types()
+
     def parse_globals(self, globals):
         self.globals = [self.parse_var(i) for i in globals.items()]
 
@@ -95,6 +97,34 @@ class GameData(object):
 
         return structures.Model(name, data=data, doc=doc, type=type,
                 functions=functions, plural=plural, parent=parent)
+    
+    def variables(self):
+        for i in self.globals:
+            yield i
+        for i in self.models:
+            for j in i.data:
+                yield j
+            for j in i.functions:
+                for k in j.arguments:
+                    yield k
+    
+    def map_types(self):
+        for var in self.variables():
+            if not isinstance(var.type, str):
+                continue
+            if var.type == 'int':
+                var.type = int
+            elif var.type == 'str':
+                var.type = str
+            elif var.type == 'float':
+                var.type = float
+            elif var.type == 'bool':
+                var.type = bool
+            else:
+                model = [i for i in self.models if i.name == var.type]
+                if not model:
+                    raise ValueError('{} is not a known type'.format(var.type))
+                var.type = model[0]
 
 
 def load(location = 'data.yaml'):
