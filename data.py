@@ -1,6 +1,8 @@
 import yaml
 import structures
 from collections import OrderedDict
+from operator import attrgetter
+namegetter = attrgetter('name') #Used for sorting
 
 from yaml import Loader
 
@@ -56,6 +58,7 @@ class GameData(object):
 
     def parse_globals(self, globals):
         self.globals = [self.parse_var(i) for i in globals.items()]
+        self.globals.sort(key=namegetter)
 
     def parse_models(self, models):
         parents = {i: j.get('parent', None) for i, j in models.items()}
@@ -66,6 +69,8 @@ class GameData(object):
             for i in eligible:
                 self.models.append(self.parse_model(i, models[i]))
                 del parents[i]
+        self.models.sort(key=namegetter)
+
 
     def parse_var(self, var):
         name, data = var
@@ -95,7 +100,12 @@ class GameData(object):
         plural = model.get('plural', name+'s')
 
         data = [self.parse_var(i) for i in data.items()]
+        print([i.name for i in data])
+        data.sort(key=namegetter)
+        print([i.name for i in data])
+
         functions = [self.parse_func(i) for i in functions.items()]
+        functions.sort(key=namegetter)
 
         return structures.Model(name, data=data, doc=doc, type=type,
                 functions=functions, plural=plural, parent=parent)
