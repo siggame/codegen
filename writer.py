@@ -1,4 +1,5 @@
 from mako.template import Template
+from mako import exceptions
 
 from copy import deepcopy
 import os.path, os
@@ -49,8 +50,8 @@ def write_file(source, dest, data, path):
     full_path = os.path.join(source, path)
 
     #compile and save the template
-    template = Template(filename=full_path)
     try:
+        template = Template(filename=full_path)
         result = template.render(**data)
     #this is a bit fancy:
     #we have a special exception saying to rerun the file iterating over values
@@ -63,10 +64,20 @@ def write_file(source, dest, data, path):
             write_file(source, dest, data, path)
         #and the recurred write should have done the work, so we stop now
         return
+    except:
+        print("Error in {}:".format(full_path))
+        print(exceptions.text_error_template().render())
+        return
+
     
     #calculate the destination path
-    template = Template(path)
-    leaf = template.render(**data)
+    try:
+        template = Template(path)
+        leaf = template.render(**data)
+    except:
+        print("Error in naming {}:".format(full_path))
+        print(exceptions.text_error_template().render())
+        return
     outpath = os.path.join(dest, leaf)
 
     #write the file
