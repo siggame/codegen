@@ -100,9 +100,7 @@ class GameData(object):
         plural = model.get('plural', name+'s')
 
         data = [self.parse_var(i) for i in data.items()]
-        print([i.name for i in data])
         data.sort(key=namegetter)
-        print([i.name for i in data])
 
         functions = [self.parse_func(i) for i in functions.items()]
         functions.sort(key=namegetter)
