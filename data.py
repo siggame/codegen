@@ -118,6 +118,10 @@ class GameData(object):
         if globs:
             for i in self.globals:
                 yield i
+            if args:
+                for j in self.functions:
+                    for k in j.arguments:
+                        yield k
         for i in self.models:
             if data:
                 for j in i.data:
