@@ -51,6 +51,8 @@ class GameData(object):
 
         if 'globals' in data:
             self.parse_globals(data['globals'])
+        if 'functions' in data:
+            self.parse_functions(data['functions'])
         if 'models' in data:
             self.parse_models(data['models'])
 
@@ -59,6 +61,10 @@ class GameData(object):
     def parse_globals(self, globals):
         self.globals = [self.parse_var(i) for i in globals.items()]
         self.globals.sort(key=namegetter)
+
+    def parse_functions(self, functions):
+        self.functions = [self.parse_func(i) for i in functions.items()]
+        self.functions.sort(key=namegetter)
 
     def parse_models(self, models):
         parents = {i: j.get('parent', None) for i, j in models.items()}

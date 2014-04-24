@@ -15,10 +15,12 @@ def parse_data(data):
     name = data.name
     version = data.version
     models = []
+    functions = data.functions
     for i in data.models:
         insert_model(models, i)
 
-    return {'models':models, 'globals':globals, 'name':name, 'version': version}
+    return {'models':models, 'globals':globals, 'name':name, 'version': version,
+            'functions': functions}
 
 
 
